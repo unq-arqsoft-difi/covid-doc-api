@@ -1,43 +1,29 @@
-openapi: 3.0.0
-info:
-  title: Request supplies
-  description: Requests for supplies
-  version: 1.0.0
-servers:
-  - url: http://localhost:9001/
-    description: Default local host server
-security:
-  - bearerAuth: []
-paths:
-  /request-supplies:
-    get:
-      summary: Returns a list of request supply.
-      responses:
-        "200":
-          description: A JSON array of request suplies
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/get-request-supply"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-    post:
-      summary: Create new request supply
-      requestBody:
-        required: true
+/request-supplies:
+  get:
+    summary: Returns a list of request supply.
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: A JSON array of request suplies
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/post-request-supply"
-      responses:
-        "201":
-          $ref: "#/components/responses/post-ok"
+              $ref: "#/components/schemas/get-request-supply"
+      "401":
+        $ref: "#/components/responses/UnauthorizedError"
+  post:
+    summary: Create new request supply
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/post-request-supply"
+    responses:
+      "201":
+        $ref: "#/components/responses/post-ok"
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
   schemas:
     post-request-supply:
       type: object
