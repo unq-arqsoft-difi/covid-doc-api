@@ -9,7 +9,7 @@
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/get-request-supply"
+              $ref: "#/components/schemas/request-supply"
       "401":
         $ref: "#/components/responses/UnauthorizedError"
   post:
@@ -19,10 +19,29 @@
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/post-request-supply"
+            type: array
+            items:
+              $ref: "#/components/schemas/post-request-supply"
     responses:
       "201":
         $ref: "#/components/responses/post-ok"
+/request-supplies/{id}:
+  get:
+    summary: Get request supplie by id
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the request supply
+    responses:
+      "200":
+        description: A JSON object with result
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/request-supply"
 components:
   schemas:
     post-request-supply:
@@ -37,85 +56,83 @@ components:
         amount:
           type: integer
           example: 1500
-    get-request-supply:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: string
-            example: 2
-          amount:
-            type: number
-            example: 150
-          status:
-            type: string
-            example: Pending
-          createdAt:
-            type: string
-            format: date
-            example: "2020-10-01T21:27:17.657Z"
-          updatedAt:
-            type: string
-            format: date
-            example: "2020-10-01T21:27:17.657Z"
-          userId:
-            type: number
-            example: 37
-          areaId:
-            type: number
-            example: 21
-          supplyId:
-            type: number
-            example: 3
-          area:
-            type: object
-            properties:
-              id:
-                type: number
-                example: 21
-              name:
-                type: string
-                example: Anestesiologia
-          user:
-            type: object
-            properties:
-              id:
-                type: number
-                example: 37
-              firstName:
-                type: string
-                example: Rene
-              lastName:
-                type: string
-                example: Favaloro
-              email:
-                type: string
-                example: favaloro@mail.com
-              job:
-                type: string
-                example: "1"
-              admin:
-                type: boolean
-                example: false
-              townId:
-                type: string
-                example: 06840010009
-              provinceId:
-                type: string
-                example: "06"
-              institutionId:
-                type: string
-                example: "10140142331292"
-          supply:
-            type: object
-            properties:
-              id:
-                type: number
-                example: 3
-              name:
-                type: string
-                example: Anestesiologia
+    request-supply:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 2
+        amount:
+          type: number
+          example: 150
+        status:
+          type: string
+          example: Pending
+        createdAt:
+          type: string
+          format: date
+          example: "2020-10-01T21:27:17.657Z"
+        updatedAt:
+          type: string
+          format: date
+          example: "2020-10-01T21:27:17.657Z"
+        userId:
+          type: number
+          example: 37
+        areaId:
+          type: number
+          example: 21
+        supplyId:
+          type: number
+          example: 3
+        area:
+          type: object
+          properties:
+            id:
+              type: number
+              example: 21
+            name:
+              type: string
+              example: Anestesiologia
+        user:
+          type: object
+          properties:
+            id:
+              type: number
+              example: 37
+            firstName:
+              type: string
+              example: Rene
+            lastName:
+              type: string
+              example: Favaloro
+            email:
+              type: string
+              example: favaloro@mail.com
+            job:
+              type: string
+              example: "1"
+            admin:
+              type: boolean
+              example: false
+            townId:
+              type: string
+              example: 06840010009
+            provinceId:
+              type: string
+              example: "06"
+            institutionId:
+              type: string
+              example: "10140142331292"
+        supply:
+          type: object
+          properties:
+            id:
+              type: number
+              example: 3
+            name:
+              type: string
+              example: Anestesiologia
 
   responses:
     UnauthorizedError:
