@@ -1,0 +1,243 @@
+/request-supplies:
+  get:
+    summary: Returns a list of request supply.
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: A JSON array of request suplies
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/request-supply"
+      "401":
+        $ref: "#/components/responses/UnauthorizedError"
+  post:
+    summary: Create new request supply
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/post-request-supply"
+    responses:
+      "201":
+        $ref: "#/components/responses/post-ok"
+      "401":
+        $ref: "#/components/responses/UnauthorizedError"
+
+/request-supplies/{id}:
+  get:
+    summary: Get request supplie by id
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the request supply
+    responses:
+      "200":
+        description: A JSON object with result
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/request-supply"
+      "400":
+        $ref: "#/components/responses/BadRequest"
+      "401":
+        $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: Cancel request supply by id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the request supply
+      responses:
+        "200":
+          description: Request supply canceled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/request-supply"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+components:
+  schemas:
+    post-request-supply:
+      type: object
+      properties:
+        areaId:
+          type: integer
+          example: 87
+        supplyId:
+          type: integer
+          example: 23
+        amount:
+          type: integer
+          example: 1500
+    request-supply:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 2
+        amount:
+          type: number
+          example: 150
+        status:
+          type: string
+          example: Pending
+        createdAt:
+          type: string
+          format: date
+          example: "2020-10-01T21:27:17.657Z"
+        updatedAt:
+          type: string
+          format: date
+          example: "2020-10-01T21:27:17.657Z"
+        userId:
+          type: number
+          example: 37
+        areaId:
+          type: number
+          example: 21
+        supplyId:
+          type: number
+          example: 3
+        area:
+          type: object
+          properties:
+            id:
+              type: number
+              example: 21
+            name:
+              type: string
+              example: Anestesiologia
+        user:
+          type: object
+          properties:
+            id:
+              type: number
+              example: 37
+            firstName:
+              type: string
+              example: Rene
+            lastName:
+              type: string
+              example: Favaloro
+            email:
+              type: string
+              example: favaloro@mail.com
+            job:
+              type: string
+              example: "1"
+            admin:
+              type: boolean
+              example: false
+            townId:
+              type: string
+              example: 06840010009
+            provinceId:
+              type: string
+              example: "06"
+            institutionId:
+              type: string
+              example: "10140142331292"
+        supply:
+          type: object
+          properties:
+            id:
+              type: number
+              example: 3
+            name:
+              type: string
+              example: Anestesiologia
+
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                description: Status code
+                type: integer
+                example: 401
+              message:
+                description: Error explanation
+                type: string
+                example: Invalid Token
+              errors:
+                type: array
+                example: []
+    post-ok:
+      description: Object created
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              created:
+                description: Created
+                type: boolean
+                example: true
+              request:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  userId:
+                    type: integer
+                    example: 2
+                  areaId:
+                    type: integer
+                    example: 87
+                  supplyId:
+                    type: integer
+                    example: 23
+                  amount:
+                    type: integer
+                    example: 1500
+                  status:
+                    type: string
+                    description: On create status is Pending
+                    example: "Pending"
+                  updatedAt:
+                    type: string
+                    format: date
+                    example: "2020-09-30T22:40:34.986Z"
+                  createdAt:
+                    type: string
+                    format: date
+                    example: "2020-09-30T22:40:34.986Z"
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                description: Status code
+                type: integer
+                example: 400
+              message:
+                description: An error description
+                type: string
+                example: "Request Supply not exists"
+              error:
+                description: An empty array
+                type: array
+                example: []
