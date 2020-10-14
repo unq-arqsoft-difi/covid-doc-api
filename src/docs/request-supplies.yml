@@ -25,6 +25,9 @@
     responses:
       "201":
         $ref: "#/components/responses/post-ok"
+      "401":
+        $ref: "#/components/responses/UnauthorizedError"
+
 /request-supplies/{id}:
   get:
     summary: Get request supplie by id
@@ -42,6 +45,31 @@
           application/json:
             schema:
               $ref: "#/components/schemas/request-supply"
+      "400":
+        $ref: "#/components/responses/BadRequest"
+      "401":
+        $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: Cancel request supply by id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the request supply
+      responses:
+        "200":
+          description: Request supply canceled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/request-supply"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
 components:
   schemas:
     post-request-supply:
@@ -154,7 +182,7 @@ components:
                 type: array
                 example: []
     post-ok:
-      description: asd
+      description: Object created
       content:
         application/json:
           schema:
@@ -194,3 +222,22 @@ components:
                     type: string
                     format: date
                     example: "2020-09-30T22:40:34.986Z"
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                description: Status code
+                type: integer
+                example: 400
+              message:
+                description: An error description
+                type: string
+                example: "Request Supply not exists"
+              error:
+                description: An empty array
+                type: array
+                example: []
