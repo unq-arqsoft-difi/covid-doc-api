@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  docs:
+    image: unqdifi/covid-docs-api:latest
+    environment:
+      - NODE_ENV=production
+      - SERVER_PORT=9001
+    ports:
+      - "9001:9001"
