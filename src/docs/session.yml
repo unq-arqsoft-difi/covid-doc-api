@@ -1,0 +1,34 @@
+/session:
+  get:
+    summary: Get token for resources access
+    responses:
+      "200":
+        description: A JSON with credentials
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/request-supply"
+      "401":
+        $ref: "#/components/responses/UnauthorizedError"
+  post:
+    summary: Create new request supply
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/user-credentials"
+
+components:
+  schemas:
+    user-credentials:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "jon.snow@winterfel.com"
+        pass:
+          type: string
+          example: "Ygritte"
